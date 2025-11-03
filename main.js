@@ -1,3 +1,46 @@
+const catpuccin = [
+    [245, 224, 220, 255],
+    [242, 205, 205, 255],
+    [245, 194, 231, 255],
+    [203, 166, 247, 255],
+    [243, 139, 168, 255],
+    [235, 160, 172, 255],
+    [250, 179, 135, 255],
+    [249, 226, 175, 255],
+    [166, 227, 161, 255],
+    [148, 226, 213, 255],
+    [137, 220, 235, 255],
+    [116, 199, 236, 255],
+    [137, 180, 250, 255],
+    [180, 190, 254, 255],
+    [205, 214, 244, 255],
+    [186, 194, 222, 255],
+    [166, 173, 200, 255],
+    [147, 153, 178, 255],
+    [127, 132, 156, 255],
+    [108, 112, 134, 255],
+    [88, 91, 112, 255],
+    [69, 71, 90, 255],
+    [49, 50, 68, 255],
+    [30, 30, 46, 255],
+    [24, 24, 37, 255],
+    [17, 17, 27, 255],
+    [69, 71, 90, 255],
+    [88, 91, 112, 255],
+    [166, 227, 161, 255],
+    [137, 216, 139, 255],
+    [249, 226, 175, 255],
+    [235, 211, 145, 255],
+    [137, 180, 250, 255],
+    [116, 168, 252, 255],
+    [245, 194, 231, 255],
+    [242, 174, 222, 255],
+    [148, 226, 213, 255],
+    [107, 215, 202, 255],
+    [166, 173, 200, 255],
+    [186, 194, 222, 255]
+];
+
 // webgl-utils.js
 async function fetchShaderFile(url) {
     return new Promise((resolve, reject) => {
@@ -71,6 +114,7 @@ function createProgramInfo(gl, shaderProgram) {
             canvasWidth: gl.getUniformLocation(shaderProgram, 'uCanvasWidth'),
             canvasHeight: gl.getUniformLocation(shaderProgram, 'uCanvasHeight'),
             image: gl.getUniformLocation(shaderProgram, 'uImage'),
+            colorscheme: gl.getUniformLocation(shaderProgram, 'uColorScheme'),
         }
     };
 }
@@ -119,6 +163,7 @@ function setAttributes(gl, programInfo, buffers) {
 function setUniforms(gl, programInfo, canvas) {
     gl.uniform1f(programInfo.uniformLocations.canvasWidth, canvas.width);
     gl.uniform1f(programInfo.uniformLocations.canvasHeight, canvas.height);
+    gl.uniform4fv(programInfo.uniformLocations.colorscheme, new Float32Array(catpuccin.flat().map(v => v / 255)));
 }
 
 // texture-utils.js
@@ -143,6 +188,7 @@ function loadAndBindTexture(gl, imageUrl, programInfo, onLoad) {
         if (onLoad) onLoad();
     };
 }
+
 
 // main.js
 async function main() {
@@ -170,9 +216,14 @@ async function main() {
     setUniforms(gl, programInfo, canvas);
 
     loadAndBindTexture(gl, '/test.png', programInfo, () => {
-        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        render();
     });
+
+    function render() {
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        requestAnimationFrame(render); // This can be removed when no longer debugging with Spector
+    }
 }
 
 main();
-
