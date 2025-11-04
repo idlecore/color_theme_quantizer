@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=SUSE+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
+body {
+    background-color: #222232;
+    color: #aaaaaa;
+    font-family: 'Outfit', sans-serif;
+}
+
+#canvas-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+canvas {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 0.5em;
+}
+
+h1 {
+    color: #aaaaaa;
+    font-family: 'SUSE Mono', monospace;
+}
+
+button {
+    background-color: #2d2d44;
+    color: #d3f9b5;
+    border: 1px solid #44445a;
+    font-size: 1.1em;
+    padding: 0.5em 1.2em;
+    border-radius: 0.5em;
+    font-family: 'Outfit', sans-serif;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+}
+
+button:hover {
+    background-color: #39395a;
+    color: #a0a0ff;
+    border: 1px solid #a0a0ff;
+    cursor: pointer;
+}
+
+#drop-area:hover {
+    cursor: pointer;
+}
+
+select {
+    background-color: #23233a;
+    color: #d3f9b5;
+    border: 1px solid #44445a;
+    font-size: 1.1em;
+    padding: 0.4em 1em;
+    border-radius: 0.5em;
+    font-family: 'Outfit', sans-serif;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+}
+
+select:focus, select:hover {
+    background-color: #39395a;
+    color: #a0a0ff;
+    border: 1px solid #a0a0ff;
+    outline: none;
+}

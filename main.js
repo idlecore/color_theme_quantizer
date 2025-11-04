@@ -71,8 +71,10 @@ function loadShader(gl, type, source) {
 }
 
 function initGLContext(canvasId) {
-    const canvas = document.getElementById(canvasId);
-    const gl = canvas.getContext("webgl2");
+    const canvas = document.createElement('canvas');
+    canvas.width = 640;
+    canvas.height = 480;
+    const gl = canvas.getContext("webgl2", {preserveDrawingBuffer: true});
     if (!gl) {
         console.error("WebGL required!");
         return null;
@@ -189,7 +191,6 @@ function loadAndBindTexture(gl, imageUrl, programInfo, onLoad) {
     };
 }
 
-
 // main.js
 async function main() {
     const { gl, canvas } = initGLContext('canvas');
@@ -219,10 +220,43 @@ async function main() {
         render();
     });
 
-    function render() {
-        gl.clear(gl.COLOR_BUFFER_BIT);
-        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-        requestAnimationFrame(render); // This can be removed when no longer debugging with Spector
+    window.gl = gl;
+    window.programInfo = programInfo;
+    window.render = render;
+
+    function render(fullsize=false, callback=null) {
+        requestAnimationFrame(() => {
+            console.time("render");
+            const visibleCanvas = document.getElementById('canvas');
+            const ctx = visibleCanvas.getContext('2d');
+            const w = gl.canvas.width;
+            const h = gl.canvas.height;
+
+            if (fullsize) {
+                gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+            } else {
+                const w = gl.canvas.width;
+                const h = gl.canvas.height;
+
+                gl.canvas.width = visibleCanvas.width;
+                gl.canvas.height = visibleCanvas.height;
+
+                gl.viewport(0, 0, visibleCanvas.width, visibleCanvas.height);
+            }
+
+            gl.clear(gl.COLOR_BUFFER_BIT);
+            gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+            ctx.drawImage(canvas, 0, 0, visibleCanvas.width, visibleCanvas.height);
+
+            if (!fullsize) {
+                gl.canvas.width = w;
+                gl.canvas.height = h;
+            }
+
+            console.timeEnd("render");
+            if (callback) callback();
+        });
     }
 }
 

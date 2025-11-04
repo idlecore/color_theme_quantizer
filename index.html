@@ -1,6 +1,30 @@
-<body>
-    <canvas id="canvas" width="640" height="480" style="border: 1px solid black; border-radius: 0.5em;"></canvas>
-</body>
+<html>
+    <head>
+        <title>Theme Viewer</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <h1> A Better Theme Converter </h1>
+        <div id="canvas-area">
+            <canvas id="canvas" width="640" height="480"></canvas>
+        </div>
+        <select id="theme-select" style="display: block; margin: 1em;">
+            <option>Catpuccin Latte</option>
+            <option>Catpuccin Frappe</option>
+            <option>Catpuccin Macchiato</option>
+            <option>Catpuccin Mocha</option>
+        </select>
 
-<!--<script src="https://greggman.github.io/webgl-lint/webgl-lint.js"></script>-->
-<script src="main.js"></script>
+        <div id="drop-area" style="border: 2px dashed #888; border-radius: 0.5em; padding: 1em; margin: 1em 0; text-align: center;">
+            <p>Drag & drop an image file here, or click to select</p>
+            <input type="file" id="fileElem" accept="image/*" style="display:none">
+        </div>
+        <button id="download-button">Download</button>
+    </body>
+
+    <!--<script src="https://greggman.github.io/webgl-lint/webgl-lint.js"></script>-->
+    <script src="main.js"></script>
+    <script src="page.js"></script>
+</html>
