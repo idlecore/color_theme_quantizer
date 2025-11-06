@@ -183,7 +183,7 @@ async function main() {
     setAttributes(gl, programInfo, buffers);
     setUniforms(gl, programInfo, canvas);
 
-    loadAndBindTexture(gl, '/test.png', programInfo, () => {
+    loadAndBindTexture(gl, 'test.png', programInfo, () => {
         render();
     });
 
