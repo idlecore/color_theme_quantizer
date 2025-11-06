@@ -1,3 +1,6 @@
+import { fetchFile } from './util.js';
+import { loadAndBindTexture } from './texture-utils.js';
+
 const catpuccin = [
     [245, 224, 220, 255],
     [242, 205, 205, 255],
@@ -42,19 +45,6 @@ const catpuccin = [
 ];
 
 // webgl-utils.js
-async function fetchShaderFile(url) {
-    return new Promise((resolve, reject) => {
-    const req = new XMLHttpRequest();
-        req.addEventListener("load", function () {
-            resolve(this.responseText);
-    });
-        req.addEventListener("error", function () {
-            reject(new Error(`Failed to load shader: ${url}`));
-        });
-        req.open("GET", url);
-    req.send();
-    });
-}
 
 function loadShader(gl, type, source) {
     const shader = gl.createShader(type);
@@ -83,8 +73,8 @@ function initGLContext(canvasId) {
 }
 
 async function loadShaders() {
-    const vsSource = await fetchShaderFile("/shaders/vertex.glsl");
-    const fsSource = await fetchShaderFile("/shaders/fragment.glsl");
+    const vsSource = await fetchFile("/shaders/vertex.glsl");
+    const fsSource = await fetchFile("/shaders/fragment.glsl");
     return { vsSource, fsSource };
 }
 
@@ -166,29 +156,6 @@ function setUniforms(gl, programInfo, canvas) {
     gl.uniform1f(programInfo.uniformLocations.canvasWidth, canvas.width);
     gl.uniform1f(programInfo.uniformLocations.canvasHeight, canvas.height);
     gl.uniform4fv(programInfo.uniformLocations.colorscheme, new Float32Array(catpuccin.flat().map(v => v / 255)));
-}
-
-// texture-utils.js
-function loadAndBindTexture(gl, imageUrl, programInfo, onLoad) {
-    const image = new Image();
-    image.src = imageUrl;
-    image.onload = function() {
-        const texture = gl.createTexture();
-        gl.bindTexture(gl.TEXTURE_2D, texture);
-        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-        gl.generateMipmap(gl.TEXTURE_2D);
-
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-
-        gl.activeTexture(gl.TEXTURE0);
-        gl.bindTexture(gl.TEXTURE_2D, texture);
-        gl.uniform1i(programInfo.uniformLocations.image, 0);
-
-        if (onLoad) onLoad();
-    };
 }
 
 // main.js

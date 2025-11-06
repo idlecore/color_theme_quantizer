@@ -10,21 +10,30 @@
         <div id="canvas-area">
             <canvas id="canvas" width="640" height="480"></canvas>
         </div>
+        <div class="input-level">
         <select id="theme-select" style="display: block; margin: 1em;">
-            <option>Catpuccin Latte</option>
-            <option>Catpuccin Frappe</option>
-            <option>Catpuccin Macchiato</option>
-            <option>Catpuccin Mocha</option>
         </select>
+        <button id="download-button">Download</button>
+        </div>
 
         <div id="drop-area" style="border: 2px dashed #888; border-radius: 0.5em; padding: 1em; margin: 1em 0; text-align: center;">
             <p>Drag & drop an image file here, or click to select</p>
             <input type="file" id="fileElem" accept="image/*" style="display:none">
         </div>
-        <button id="download-button">Download</button>
+        <div style="border: 1px solid; border-radius: 0.5em; padding: 1em; margin: 1em;">
+            <h3 style="margin-top: 0;">About</h3>
+            <p>
+                This theme converter provides more accurate color matching by utilizing CIE LAB color differencing, which models human color perception. As a result, theme conversions are visually consistent and superior to traditional RGB-based methods.
+                Additionally, the conversion and rendering are performed in a WebGL fragment shader, making the conversion process significantly faster than JavaScript image processing.
+            </p>
+        </div>
+
+        <footer style="font-size: 0.9em; display: flex; align-items: center; justify-content: center; position: absolute; bottom: 0; left: 0; width: 100%;">
+            <p style="margin-top:1em;">&copy; 2025 Carter Hay</p>
+        </footer>
     </body>
 
     <!--<script src="https://greggman.github.io/webgl-lint/webgl-lint.js"></script>-->
-    <script src="main.js"></script>
-    <script src="page.js"></script>
+    <script src="js/main.js" type="module"></script>
+    <script src="js/page.js" type='module'></script>
 </html>

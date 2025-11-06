@@ -4,6 +4,7 @@ body {
     background-color: #222232;
     color: #aaaaaa;
     font-family: 'Outfit', sans-serif;
+    font-size: 1.1em;
 }
 
 #canvas-area {
@@ -31,6 +32,7 @@ button {
     border-radius: 0.5em;
     font-family: 'Outfit', sans-serif;
     transition: background 0.2s, color 0.2s, border 0.2s;
+    margin: 1em;
 }
 
 button:hover {
@@ -38,6 +40,10 @@ button:hover {
     color: #a0a0ff;
     border: 1px solid #a0a0ff;
     cursor: pointer;
+}
+
+#drop-area {
+    font-size: 1.2em;
 }
 
 #drop-area:hover {
@@ -60,4 +66,10 @@ select:focus, select:hover {
     color: #a0a0ff;
     border: 1px solid #a0a0ff;
     outline: none;
+}
+
+.input-level {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
 }

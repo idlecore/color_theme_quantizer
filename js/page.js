@@ -1,22 +1,12 @@
-function updateTextureWithImage(gl, image, programInfo, onLoad) {
-    const texture = gl.createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, texture);
-    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-    gl.generateMipmap(gl.TEXTURE_2D);
+import { updateTextureWithImage } from './texture-utils.js';
+import { getThemes, updateTheme, getCurrentTheme} from './theme-utils.js';
 
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
 
-    gl.activeTexture(gl.TEXTURE0);
-    gl.bindTexture(gl.TEXTURE_2D, texture);
-    gl.uniform1i(programInfo.uniformLocations.image, 0);
+function updateColorTheme(gl, color, programInfo) {
 
-    if (onLoad) onLoad();
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+function initDrop() {
     const dropArea = document.getElementById('drop-area');
     const fileElem = document.getElementById('fileElem');
     const canvas = document.getElementById('canvas');
@@ -81,7 +71,9 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     }
+}
 
+function initDownloadButton() {
     const downloadButton = document.getElementById('download-button');
     downloadButton.addEventListener('click', () => {
         // const ctx = document.getElementById('canvas').getContext('2d')
@@ -94,4 +86,32 @@ document.addEventListener('DOMContentLoaded', function () {
             link.click();
         });
     });
+}
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    initDrop();
+    initDownloadButton();
+
+    const themeSelect = document.getElementById('theme-select');
+    getThemes().then(themes => {
+        for (let i = 0; i < themes.length; ++i) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.text = themes[i].name;
+            themeSelect.appendChild(option);
+        }
+        themeSelect.value = 3;
+        console.log("Got themes!");
+    });
+
+
+
+    // Select onChange listener
+    themeSelect.addEventListener('change', (e) => {
+        getCurrentTheme().then(theme => {
+            updateTheme(window.gl, theme.data, window.programInfo, window.render);
+        });
+   });
+
 });
