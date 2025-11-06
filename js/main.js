@@ -73,8 +73,8 @@ function initGLContext(canvasId) {
 }
 
 async function loadShaders() {
-    const vsSource = await fetchFile("/shaders/vertex.glsl");
-    const fsSource = await fetchFile("/shaders/fragment.glsl");
+    const vsSource = await fetchFile("shaders/vertex.glsl");
+    const fsSource = await fetchFile("shaders/fragment.glsl");
     return { vsSource, fsSource };
 }
 
